@@ -2,7 +2,8 @@ export const styles: { [key: string]: React.CSSProperties } = {
   container: {
     textAlign: "center",
     marginTop: "100px",
-    color: "white",
+    color: "#ffffff",
+    backgroundColor: "#2a2a2a",
   },
   input: {
     padding: "10px",

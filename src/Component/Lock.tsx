@@ -1,52 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, use } from "react";
+import { apiHelper } from "../Helpers/apiHelper";
 import { styles } from "./Styles/LockStyle";
 
 type LockProps = {
   onUnlock: () => void;
 };
 
-export const Lock: React.FC<LockProps> = ({ onUnlock }) => {
-  const [input, setInput] = useState<string>("");
-  const [error, setError] = useState<string>("");
+const Lock: React.FC<LockProps> = ({ onUnlock }) => {
+  const [input, setInput] = useState("");
+  const [error, setError] = useState("");
+  const [pin, setPin] = useState("");
 
-  const generatePin = (): string => {
-    const day = 29;
-    const month = 3;
-    const year = 2026;
+ useEffect(() => {
+    apiHelper.fetchPin()
+      .then((fetchedPin) => {
+        setPin(fetchedPin);
+      })
+      .catch(() => setError("Errore nel caricamento del PIN"));
+  }, []);
 
-    return (
-      String(day).padStart(2, "0") +
-      String(month).padStart(2, "0") +
-      String(year)
-    );
-  };
 
   const handleUnlock = () => {
-    if (input === generatePin()) {
+    if (input === pin) {
       setError("");
-      onUnlock();
+      onUnlock(); 
     } else {
-      setError("Mmm... non sei tu il mio puddino 😏");
+      setError("Mmm... non sei tu il mio puddino!");
     }
   };
 
   return (
     <div style={styles.container}>
       <h2>Solo per te ❤️</h2>
-      <p>Inserisci il codice</p>
-
       <input
         type="password"
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        placeholder="Inserisci PIN"
         maxLength={8}
         style={styles.input}
       />
-
-      <button onClick={handleUnlock} style={styles.button}>
+      <br />
+      <button
+        onClick={handleUnlock}
+        style={styles.button}
+      >
         Sblocca
       </button>
-
       {error && <p style={styles.error}>{error}</p>}
     </div>
   );
