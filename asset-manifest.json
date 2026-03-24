@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/PuddiGift/static/css/main.e6c13ad2.css",
-    "main.js": "/PuddiGift/static/js/main.76973fe0.js",
+    "main.js": "/PuddiGift/static/js/main.fd92fd05.js",
     "static/js/453.0c07eccf.chunk.js": "/PuddiGift/static/js/453.0c07eccf.chunk.js",
     "index.html": "/PuddiGift/index.html",
     "main.e6c13ad2.css.map": "/PuddiGift/static/css/main.e6c13ad2.css.map",
-    "main.76973fe0.js.map": "/PuddiGift/static/js/main.76973fe0.js.map",
+    "main.fd92fd05.js.map": "/PuddiGift/static/js/main.fd92fd05.js.map",
     "453.0c07eccf.chunk.js.map": "/PuddiGift/static/js/453.0c07eccf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.76973fe0.js"
+    "static/js/main.fd92fd05.js"
   ]
 }
