@@ -1,12 +1,12 @@
 import React, { useState, useEffect, use } from "react";
 import { apiHelper } from "../Helpers/apiHelper";
 import { styles } from "./Styles/LockStyle";
+import { ILockInterface } from "./Interfaces/ILockInterface";
+import Mappings from "../Helpers/Mappings";
 
-type LockProps = {
-  onUnlock: () => void;
-};
 
-const Lock: React.FC<LockProps> = ({ onUnlock }) => {
+
+export const Lock: React.FC<ILockInterface> = ({ onUnlock }) => {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const [pin, setPin] = useState("");
@@ -16,7 +16,7 @@ const Lock: React.FC<LockProps> = ({ onUnlock }) => {
       .then((fetchedPin) => {
         setPin(fetchedPin);
       })
-      .catch(() => setError("Errore nel caricamento del PIN"));
+      .catch((err) => console.error(Mappings.lockPinError, err));
   }, []);
 
 
@@ -25,18 +25,18 @@ const Lock: React.FC<LockProps> = ({ onUnlock }) => {
       setError("");
       onUnlock(); 
     } else {
-      setError("Mmm... non sei tu il mio puddino!");
+      setError(Mappings.lockPinMismatchError);
     }
   };
 
   return (
     <div style={styles.container}>
-      <h2>Solo per te ❤️</h2>
+      <h2>{Mappings.lockTitle}</h2>
       <input
         type="password"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="Inserisci PIN"
+        placeholder={Mappings.pinPlaceholder}
         maxLength={8}
         style={styles.input}
       />
