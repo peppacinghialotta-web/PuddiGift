@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { apiHelper } from "../Helpers/apiHelper";
 import { styles } from "./Styles/LockStyle";
 import { ILockInterface } from "./Interfaces/ILockInterface";

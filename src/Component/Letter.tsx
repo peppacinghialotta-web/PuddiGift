@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { letterStyles as styles } from './Styles/LetterStyle';
-import Mappings from '../Helpers/Mappings';
-import { ILetterInterface } from './Interfaces/ILetterInterface';
+import { useState, useEffect } from "react";
+import Mappings from "../Helpers/Mappings";
+import { ILetterInterface } from "./Interfaces/ILetterInterface";
+import { styles } from "./Styles/LetterStyle";
 
-
-const Letter: React.FC<ILetterInterface> = ({
+export const Letter: React.FC<ILetterInterface> = ({
   text = '',
   title = Mappings.letterTitle,
 }) => {
-  const [isOpen, setOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false); 
+  const [isOpen, setOpen] = useState(false);         
   const [typed, setTyped] = useState('');
   const content = text.trim();
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setOpen(true), 1000);
+    setIsVisible(true);
+    const timer = window.setTimeout(() => setOpen(true), 1200);
     return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     if (!isOpen) return;
-    setTyped('');
+    
     let index = 0;
     const typeInterval = window.setInterval(() => {
       index += 1;
@@ -27,10 +28,17 @@ const Letter: React.FC<ILetterInterface> = ({
       if (index >= content.length) {
         window.clearInterval(typeInterval);
       }
-    }, 45);
+    }, 50); 
 
     return () => window.clearInterval(typeInterval);
   }, [isOpen, content]);
+
+    const wrapperStyle: React.CSSProperties = {
+    ...styles.wrapper,
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+    transition: 'opacity 1s ease-in-out, transform 1s ease-out',
+  };
 
   const envelopeStyle = isOpen
     ? { ...styles.envelope, ...styles.envelopeOpen }
@@ -40,21 +48,29 @@ const Letter: React.FC<ILetterInterface> = ({
     ? { ...styles.flap, ...styles.flapOpen }
     : styles.flap;
 
-  const stars: any[] = [];
-
   return (
-    <div style={styles.wrapper}>
+    <div style={wrapperStyle}>
       <style>
-        {`@keyframes twinkle { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); }}
+        {`
+          @keyframes twinkle { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); }}
           @keyframes fly { 0% { opacity: 0; transform: translateY(6px) scale(0.7);} 20% {opacity:1; transform: translateY(-2px) scale(1);} 100% {opacity:0; transform: translateY(-30px) scale(0.3);} }
-          @keyframes shineLine { from { background-position: -150% 0; } to { background-position: 150% 0; } }
         `}
       </style>
 
       <div style={envelopeStyle}>
-        {stars}
         <div style={flapStyle}></div>
-        <h3 style={{ textAlign: 'center', margin: '0 0 14px', color: '#326771' }}>{title}</h3>
+        <div style={styles.heartBadge}>{Mappings.letterBadge}</div>
+        
+        <h3 style={{ 
+          textAlign: 'center', 
+          margin: '0 0 14px', 
+          color: '#326771',
+          opacity: isOpen ? 1 : 0,
+          transition: 'opacity 0.5s ease 0.8s' 
+        }}>
+          {title}
+        </h3>
+
         <div style={styles.paper}>
           <pre style={styles.typewriter}>{typed}</pre>
         </div>
@@ -62,5 +78,3 @@ const Letter: React.FC<ILetterInterface> = ({
     </div>
   );
 };
-
-export default Letter;

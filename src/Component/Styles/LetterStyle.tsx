@@ -1,4 +1,4 @@
-export const letterStyles: { [key: string]: React.CSSProperties } = {
+export const styles: { [key: string]: React.CSSProperties } = {
   wrapper: {
     display: 'flex',
     justifyContent: 'center',
